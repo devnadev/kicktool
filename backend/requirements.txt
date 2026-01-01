@@ -1,0 +1,10 @@
+# Backend Dependencies
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+yt-dlp>=2023.11.16
+cloudscraper>=1.2.71
+sse-starlette>=1.8.2
+pydantic>=2.5.0
+python-multipart>=0.0.6
+aiofiles>=23.2.1
+m3u8>=3.0.0

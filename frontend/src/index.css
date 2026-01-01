@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   Kick.com DVR & VOD Downloader - Base Styles
+   Glassmorphism + Neon Green Aesthetic
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #0a0a0f 100%);
+  min-height: 100vh;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Background grid pattern */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(83, 252, 24, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(83, 252, 24, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================
+   Glassmorphism Utilities
+   ============================================ */
+
+@layer components {
+  .glass {
+    background: rgba(18, 18, 26, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(83, 252, 24, 0.1);
+    border-radius: 16px;
+  }
+
+  .glass-dark {
+    background: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+  }
+
+  .glass-input {
+    background: rgba(26, 26, 37, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(83, 252, 24, 0.2);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .glass-input:focus {
+    border-color: #53FC18;
+    box-shadow: 0 0 20px rgba(83, 252, 24, 0.2);
+    outline: none;
+  }
+
+  .neon-border {
+    border: 1px solid rgba(83, 252, 24, 0.3);
+    box-shadow: 
+      0 0 15px rgba(83, 252, 24, 0.1),
+      inset 0 0 15px rgba(83, 252, 24, 0.05);
+  }
+
+  .neon-glow {
+    box-shadow: 
+      0 0 20px rgba(83, 252, 24, 0.3),
+      0 0 40px rgba(83, 252, 24, 0.2),
+      0 0 60px rgba(83, 252, 24, 0.1);
+  }
+
+  .neon-text {
+    color: #53FC18;
+    text-shadow: 
+      0 0 10px rgba(83, 252, 24, 0.5),
+      0 0 20px rgba(83, 252, 24, 0.3);
+  }
+}
+
+/* ============================================
+   Button Styles
+   ============================================ */
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-semibold text-dark-900;
+    background: linear-gradient(135deg, #53FC18 0%, #3bd912 100%);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .btn-primary:hover::before {
+    opacity: 1;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(83, 252, 24, 0.3);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-semibold text-white;
+    background: rgba(37, 37, 48, 0.8);
+    border: 1px solid rgba(83, 252, 24, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(83, 252, 24, 0.1);
+    border-color: #53FC18;
+  }
+}
+
+/* ============================================
+   Progress Bar
+   ============================================ */
+
+@layer components {
+  .progress-bar {
+    @apply w-full h-3 rounded-full overflow-hidden;
+    background: rgba(37, 37, 48, 0.8);
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full;
+    background: linear-gradient(90deg, #53FC18 0%, #18FCE8 50%, #53FC18 100%);
+    background-size: 200% 100%;
+    animation: gradient-x 2s ease infinite;
+    transition: width 0.3s ease;
+    position: relative;
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s linear infinite;
+  }
+}
+
+/* ============================================
+   Input Styles
+   ============================================ */
+
+input, select {
+  color: #ffffff;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+select option {
+  background: #1a1a25;
+  color: #ffffff;
+}
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 10, 15, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(83, 252, 24, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(83, 252, 24, 0.5);
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Kick logo styling */
+.kick-logo {
+  background: linear-gradient(135deg, #53FC18 0%, #3bd912 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

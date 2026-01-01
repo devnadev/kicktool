@@ -1,0 +1,5 @@
+Collecting m3u8
+  Downloading m3u8-6.0.0-py3-none-any.whl.metadata (4.9 kB)
+Downloading m3u8-6.0.0-py3-none-any.whl (24 kB)
+Installing collected packages: m3u8
+Successfully installed m3u8-6.0.0
