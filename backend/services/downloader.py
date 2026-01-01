@@ -169,23 +169,42 @@ class DownloaderService:
             task.status = DownloadStatus.DOWNLOADING
             task.message = "Starting download..."
             
-            # Try Streamlink first (better for Kick.com live streams)
-            streamlink_error = None
-            try:
-                await self._download_with_streamlink(task, cookies)
-            except Exception as streamlink_err:
-                streamlink_error = str(streamlink_err)
-                print(f"[INFO] Streamlink failed: {streamlink_err}")
-                print(f"[DEBUG] Streamlink traceback: {traceback.format_exc()}")
-                task.message = "Trying alternative method..."
-                # Fallback to yt-dlp
+            if task.request.dvr_mode:
+                # Prioritize yt-dlp for DVR mode as it handles "live from start" better
+                print(f"[INFO] DVR mode enabled - prioritizing yt-dlp")
+                ytdlp_error = None
                 try:
                     await self._download_with_ytdlp(task, cookies)
                 except Exception as ytdlp_err:
-                    print(f"[ERROR] yt-dlp also failed: {ytdlp_err}")
+                    ytdlp_error = str(ytdlp_err)
+                    print(f"[INFO] yt-dlp failed: {ytdlp_err}")
                     print(f"[DEBUG] yt-dlp traceback: {traceback.format_exc()}")
-                    # Combine both errors
-                    raise Exception(f"Streamlink: {streamlink_error}; yt-dlp: {str(ytdlp_err)}")
+                    task.message = "Trying alternative method..."
+                    # Fallback to Streamlink
+                    try:
+                        await self._download_with_streamlink(task, cookies)
+                    except Exception as streamlink_err:
+                        print(f"[ERROR] Streamlink also failed: {streamlink_err}")
+                        print(f"[DEBUG] Streamlink traceback: {traceback.format_exc()}")
+                        raise Exception(f"yt-dlp: {ytdlp_error}; Streamlink: {str(streamlink_err)}")
+            else:
+                # Try Streamlink first (better for Kick.com live streams)
+                streamlink_error = None
+                try:
+                    await self._download_with_streamlink(task, cookies)
+                except Exception as streamlink_err:
+                    streamlink_error = str(streamlink_err)
+                    print(f"[INFO] Streamlink failed: {streamlink_err}")
+                    print(f"[DEBUG] Streamlink traceback: {traceback.format_exc()}")
+                    task.message = "Trying alternative method..."
+                    # Fallback to yt-dlp
+                    try:
+                        await self._download_with_ytdlp(task, cookies)
+                    except Exception as ytdlp_err:
+                        print(f"[ERROR] yt-dlp also failed: {ytdlp_err}")
+                        print(f"[DEBUG] yt-dlp traceback: {traceback.format_exc()}")
+                        # Combine both errors
+                        raise Exception(f"Streamlink: {streamlink_error}; yt-dlp: {str(ytdlp_err)}")
             
             # After download, handle time range clipping and convert to MP4
             await self._process_downloaded_file(task)
